@@ -9,7 +9,7 @@ import "openzeppelin-contracts/contracts/token/ERC20/utils/SafeERC20.sol";
 /// @author @ZackZeroLiquid
 /// @dev A token holder contract that can release its token balance gradually like a
 /// typical vesting scheme, with a cliff and vesting period. Optionally revocable by the owner.
-contract ZeroLiquidContributorsVesting is Ownable {
+contract ZeroLiquidCoreContributorsVesting is Ownable {
     // The vesting schedule is time-based (i.e. using block timestamps as opposed to e.g. block numbers), and is
     // therefore sensitive to timestamp manipulation (which is something miners can do, to a certain degree). Therefore,
     // it is recommended to avoid using short time durations (less than a minute). Typical vesting schemes, with a
@@ -43,12 +43,12 @@ contract ZeroLiquidContributorsVesting is Ownable {
     constructor(address beneficiaryAddress, uint256 cliffDuration, uint256 vestingDuration) {
         uint256 startTimestamp = block.timestamp;
 
-        require(beneficiaryAddress != address(0), "ContributorsVesting:: beneficiary can not be zero address");
-        require(cliffDuration <= vestingDuration, "ContributorsVesting:: cliff is longer than duration");
-        require(vestingDuration > 0, "ContributorsVesting:: duration is 0");
+        require(beneficiaryAddress != address(0), "CoreContributorsVesting:: beneficiary can not be zero address");
+        require(cliffDuration <= vestingDuration, "CoreContributorsVesting:: cliff is longer than duration");
+        require(vestingDuration > 0, "CoreContributorsVesting:: duration is 0");
         require(
             startTimestamp.add(vestingDuration) > block.timestamp,
-            "ContributorsVesting:: final time is before current time"
+            "CoreContributorsVesting:: final time is before current time"
         );
 
         _beneficiary = beneficiaryAddress;
@@ -98,7 +98,7 @@ contract ZeroLiquidContributorsVesting is Ownable {
     function release(IERC20 token) public {
         uint256 unreleased = _releasableAmount(token);
 
-        require(unreleased > 0, "ContributorsVesting:: no tokens are due");
+        require(unreleased > 0, "CoreContributorsVesting:: no tokens are due");
 
         _released[address(token)] = _released[address(token)].add(unreleased);
 
@@ -111,8 +111,8 @@ contract ZeroLiquidContributorsVesting is Ownable {
     /// remain in the contract, the rest are returned to the owner.
     /// @param token ERC20 token which is being vested
     function revoke(IERC20 token) public onlyOwner {
-        require(_revocable, "ContributorsVesting:: cannot revoke");
-        require(!_revoked[address(token)], "ContributorsVesting:: vesting already revoked");
+        require(_revocable, "CoreContributorsVesting:: cannot revoke");
+        require(!_revoked[address(token)], "CoreContributorsVesting:: vesting already revoked");
 
         uint256 balance = token.balanceOf(address(this));
 

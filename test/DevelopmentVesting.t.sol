@@ -8,10 +8,10 @@ import "./../src/IncentiveVesting.sol";
 import "./../src/ContributorsVesting.sol";
 
 contract DevelopmentVestingTest is Test {
-    ZeroLiquidDevelopmentVesting internal developmentVesting;
-    ZeroLiquidGovernanceVesting internal governanceVesting;
+    ZeroLiquidDevelopmentMarketingVesting internal developmentVesting;
+    ZeroLiquidGovernanceCommunityVesting internal governanceVesting;
     ZeroLiquidIncentiveVesting internal incentiveVesting;
-    ZeroLiquidContributorsVesting internal contributorsVesting;
+    ZeroLiquidCoreContributorsVesting internal contributorsVesting;
 
     uint256 internal ownerPrivateKey;
     uint256 internal developmentBeneficiaryPrivateKey;
@@ -49,13 +49,13 @@ contract DevelopmentVestingTest is Test {
         contributorsBeneficiaryAddress = vm.addr(contributorsBeneficiaryPrivateKey);
 
         developmentVesting =
-        new ZeroLiquidDevelopmentVesting(developmentBeneficiaryAddress, developmentVestingCliffDuration, developmentVestingDuration);
+        new ZeroLiquidDevelopmentMarketingVesting(developmentBeneficiaryAddress, developmentVestingCliffDuration, developmentVestingDuration);
         governanceVesting =
-        new ZeroLiquidGovernanceVesting(governanceBeneficiaryAddress, governanceVestingCliffDuration, governanceVestingDuration);
+        new ZeroLiquidGovernanceCommunityVesting(governanceBeneficiaryAddress, governanceVestingCliffDuration, governanceVestingDuration);
         incentiveVesting =
         new ZeroLiquidIncentiveVesting(incentiveBeneficiaryAddress, incentiveVestingCliffDuration, incentiveVestingDuration);
         contributorsVesting =
-        new ZeroLiquidContributorsVesting(contributorsBeneficiaryAddress, contributorsVestingCliffDuration, contributorsVestingDuration);
+        new ZeroLiquidCoreContributorsVesting(contributorsBeneficiaryAddress, contributorsVestingCliffDuration, contributorsVestingDuration);
     }
 
     function test_DevelopmentVestingBeneficiary() public {
