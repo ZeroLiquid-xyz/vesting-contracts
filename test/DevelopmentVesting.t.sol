@@ -7,33 +7,33 @@ import "./../src/DevelopmentVesting.sol";
 contract DevelopmentVestingTest is Test {
     ZeroLiquidDevelopmentVesting internal developmentVesting;
 
-    uint256 internal _ownerPrivateKey;
-    uint256 internal _beneficiaryPrivateKey;
+    uint256 internal ownerPrivateKey;
+    uint256 internal beneficiaryPrivateKey;
 
-    address internal _ownerAddress;
-    address internal _beneficiaryAddress;
-    uint256 internal _cliffDuration = 7_776_000;
-    uint256 internal _vestingDuration = 93_312_000;
+    address internal ownerAddress;
+    address internal beneficiaryAddress;
+    uint256 internal cliffDuration = 7_776_000;
+    uint256 internal vestingDuration = 93_312_000;
 
     function setUp() public {
-        _ownerPrivateKey = 0xA11CE;
-        _beneficiaryPrivateKey = 0xB0B;
+        ownerPrivateKey = 0xA11CE;
+        beneficiaryPrivateKey = 0xB0B;
 
-        _ownerAddress = vm.addr(_ownerPrivateKey);
-        _beneficiaryAddress = vm.addr(_beneficiaryPrivateKey);
+        ownerAddress = vm.addr(ownerPrivateKey);
+        beneficiaryAddress = vm.addr(beneficiaryPrivateKey);
 
-        developmentVesting = new ZeroLiquidDevelopmentVesting(_beneficiaryAddress, _cliffDuration, _vestingDuration);
+        developmentVesting = new ZeroLiquidDevelopmentVesting(beneficiaryAddress, cliffDuration, vestingDuration);
     }
 
     function test_Beneficiary() public {
-        assertEq(developmentVesting.beneficiary(), _beneficiaryAddress);
+        assertEq(developmentVesting.beneficiary(), beneficiaryAddress);
     }
 
-    function test_CliffDuration() public {
-        assertEq(developmentVesting.cliff(), _cliffDuration + developmentVesting.start());
+    function test_Cliff() public {
+        assertEq(developmentVesting.cliff(), cliffDuration + developmentVesting.start());
     }
 
     function test_VestingDuration() public {
-        assertEq(developmentVesting.duration(), _vestingDuration);
+        assertEq(developmentVesting.duration(), vestingDuration);
     }
 }
