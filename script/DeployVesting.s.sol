@@ -5,7 +5,7 @@ import { Script } from "forge-std/Script.sol";
 import { ZeroLiquidDevelopmentVesting } from "../src/DevelopmentVesting.sol";
 
 /// @dev See the Solidity Scripting tutorial: https://book.getfoundry.sh/tutorials/solidity-scripting
-contract DeployFoo is Script {
+contract DeployVesting is Script {
     ZeroLiquidDevelopmentVesting internal developmentVesting;
     address internal deployer;
     uint256 internal beneficiaryPrivateKey;
