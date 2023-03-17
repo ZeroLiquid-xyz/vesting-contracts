@@ -43,12 +43,12 @@ contract ZeroLiquidDevelopmentVesting is Ownable {
     constructor(address beneficiaryAddress, uint256 cliffDuration, uint256 vestingDuration) {
         uint256 startTimestamp = block.timestamp;
 
-        require(beneficiaryAddress != address(0), "ZeroLiquidVesting:: beneficiary can not be zero address");
-        require(cliffDuration <= vestingDuration, "ZeroLiquidVesting:: cliff is longer than duration");
-        require(vestingDuration > 0, "ZeroLiquidVesting:: duration is 0");
+        require(beneficiaryAddress != address(0), "DevelopmentVesting:: beneficiary can not be zero address");
+        require(cliffDuration <= vestingDuration, "DevelopmentVesting:: cliff is longer than duration");
+        require(vestingDuration > 0, "DevelopmentVesting:: duration is 0");
         require(
             startTimestamp.add(vestingDuration) > block.timestamp,
-            "ZeroLiquidVesting:: final time is before current time"
+            "DevelopmentVesting:: final time is before current time"
         );
 
         _beneficiary = beneficiaryAddress;
@@ -98,7 +98,7 @@ contract ZeroLiquidDevelopmentVesting is Ownable {
     function release(IERC20 token) public {
         uint256 unreleased = _releasableAmount(token);
 
-        require(unreleased > 0, "ZeroLiquidVesting:: no tokens are due");
+        require(unreleased > 0, "DevelopmentVesting:: no tokens are due");
 
         _released[address(token)] = _released[address(token)].add(unreleased);
 
@@ -111,8 +111,8 @@ contract ZeroLiquidDevelopmentVesting is Ownable {
     /// remain in the contract, the rest are returned to the owner.
     /// @param token ERC20 token which is being vested
     function revoke(IERC20 token) public onlyOwner {
-        require(_revocable, "ZeroLiquidVesting:: cannot revoke");
-        require(!_revoked[address(token)], "ZeroLiquidVesting:: vesting already revoked");
+        require(_revocable, "DevelopmentVesting:: cannot revoke");
+        require(!_revoked[address(token)], "DevelopmentVesting:: vesting already revoked");
 
         uint256 balance = token.balanceOf(address(this));
 
