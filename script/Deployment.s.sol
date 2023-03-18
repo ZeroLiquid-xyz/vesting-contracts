@@ -23,9 +23,9 @@ contract Deployment is Script {
     uint256 internal incentiveCliffDuration = 2_592_000;
     uint256 internal contributorsCliffDuration = 15_552_000;
 
-    uint256 internal developmentVestingDuration = 93_312_000;
+    uint256 internal developmentVestingDuration = 85_536_000;
     uint256 internal governanceVestingDuration = 93_312_000;
-    uint256 internal incentiveVestingDuration = 93_312_000;
+    uint256 internal incentiveVestingDuration = 80_352_000;
     uint256 internal contributorsVestingDuration = 93_312_000;
 
     function run() external {
@@ -33,16 +33,19 @@ contract Deployment is Script {
         vm.startBroadcast(deployerPrivateKey);
 
         developmentVesting =
-        new ZeroLiquidDevelopmentMarketingVesting(developmentBeneficiaryAddress, developmentCliffDuration, developmentVestingDuration);
+        new ZeroLiquidDevelopmentMarketingVesting(developmentBeneficiaryAddress, developmentCliffDuration,
+        developmentVestingDuration);
 
         governanceVesting =
-        new ZeroLiquidGovernanceCommunityVesting(governanceBeneficiaryAddress, governanceCliffDuration, governanceVestingDuration);
+        new ZeroLiquidGovernanceCommunityVesting(governanceBeneficiaryAddress, governanceCliffDuration,
+        governanceVestingDuration);
 
-        incentiveVesting =
-        new ZeroLiquidIncentiveVesting(incentiveBeneficiaryAddress, incentiveCliffDuration, incentiveVestingDuration);
+        incentiveVesting = new ZeroLiquidIncentiveVesting(incentiveBeneficiaryAddress, incentiveCliffDuration,
+        incentiveVestingDuration);
 
         contributorsVesting =
-        new ZeroLiquidCoreContributorsVesting(contributorsBeneficiaryAddress, contributorsCliffDuration, contributorsVestingDuration);
+        new ZeroLiquidCoreContributorsVesting(contributorsBeneficiaryAddress, contributorsCliffDuration,
+        contributorsVestingDuration);
 
         vm.stopBroadcast();
     }
