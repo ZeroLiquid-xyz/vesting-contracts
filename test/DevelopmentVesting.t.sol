@@ -4,14 +4,14 @@ pragma solidity >=0.8.19 <0.9.0;
 import "forge-std/Test.sol";
 import "./../src/DevelopmentVesting.sol";
 import "./../src/GovernanceVesting.sol";
-import "./../src/IncentiveVesting.sol";
+import "./../src/IncentivesVesting.sol";
 import "./../src/ContributorsVesting.sol";
 
 contract DevelopmentVestingTest is Test {
-    ZeroLiquidDevelopmentMarketingVesting internal developmentVesting;
-    ZeroLiquidGovernanceCommunityVesting internal governanceVesting;
-    ZeroLiquidIncentiveVesting internal incentiveVesting;
-    ZeroLiquidCoreContributorsVesting internal contributorsVesting;
+    DevelopmentMarketingVesting internal developmentVesting;
+    GovernanceCommunityVesting internal governanceVesting;
+    IncentivesVesting internal incentiveVesting;
+    CoreContributorsVesting internal contributorsVesting;
 
     uint256 internal ownerPrivateKey;
     uint256 internal developmentBeneficiaryPrivateKey;
@@ -49,13 +49,13 @@ contract DevelopmentVestingTest is Test {
         contributorsBeneficiaryAddress = vm.addr(contributorsBeneficiaryPrivateKey);
 
         developmentVesting =
-        new ZeroLiquidDevelopmentMarketingVesting(developmentBeneficiaryAddress, developmentVestingCliffDuration, developmentVestingDuration);
+        new DevelopmentMarketingVesting(developmentBeneficiaryAddress, developmentVestingCliffDuration, developmentVestingDuration);
         governanceVesting =
-        new ZeroLiquidGovernanceCommunityVesting(governanceBeneficiaryAddress, governanceVestingCliffDuration, governanceVestingDuration);
+        new GovernanceCommunityVesting(governanceBeneficiaryAddress, governanceVestingCliffDuration, governanceVestingDuration);
         incentiveVesting =
-        new ZeroLiquidIncentiveVesting(incentiveBeneficiaryAddress, incentiveVestingCliffDuration, incentiveVestingDuration);
+            new IncentivesVesting(incentiveBeneficiaryAddress, incentiveVestingCliffDuration, incentiveVestingDuration);
         contributorsVesting =
-        new ZeroLiquidCoreContributorsVesting(contributorsBeneficiaryAddress, contributorsVestingCliffDuration, contributorsVestingDuration);
+        new CoreContributorsVesting(contributorsBeneficiaryAddress, contributorsVestingCliffDuration, contributorsVestingDuration);
     }
 
     function test_DevelopmentVestingBeneficiary() public {
