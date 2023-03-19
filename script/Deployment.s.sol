@@ -2,16 +2,16 @@
 pragma solidity >=0.8.19;
 
 import { Script } from "forge-std/Script.sol";
-import { ZeroLiquidDevelopmentMarketingVesting } from "../src/DevelopmentVesting.sol";
-import { ZeroLiquidGovernanceCommunityVesting } from "./../src/GovernanceVesting.sol";
-import { ZeroLiquidIncentiveVesting } from "./../src/IncentiveVesting.sol";
-import { ZeroLiquidCoreContributorsVesting } from "./../src/ContributorsVesting.sol";
+import { DevelopmentMarketingVesting } from "../src/DevelopmentVesting.sol";
+import { GovernanceCommunityVesting } from "./../src/GovernanceVesting.sol";
+import { IncentivesVesting } from "./../src/IncentivesVesting.sol";
+import { CoreContributorsVesting } from "./../src/ContributorsVesting.sol";
 
 contract Deployment is Script {
-    ZeroLiquidDevelopmentMarketingVesting internal developmentVesting;
-    ZeroLiquidGovernanceCommunityVesting internal governanceVesting;
-    ZeroLiquidIncentiveVesting internal incentiveVesting;
-    ZeroLiquidCoreContributorsVesting internal contributorsVesting;
+    DevelopmentMarketingVesting internal developmentVesting;
+    GovernanceCommunityVesting internal governanceVesting;
+    IncentivesVesting internal incentivesVesting;
+    CoreContributorsVesting internal contributorsVesting;
 
     address internal developmentBeneficiaryAddress = 0x6fF9474923510C0D41d246b9f39259cbf4E5ebA3;
     address internal governanceBeneficiaryAddress = 0xAF8794cDA6Aa82e7E0589B0684a24A47C161f9e2;
@@ -32,19 +32,16 @@ contract Deployment is Script {
         uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
         vm.startBroadcast(deployerPrivateKey);
 
-        developmentVesting =
-        new ZeroLiquidDevelopmentMarketingVesting(developmentBeneficiaryAddress, developmentCliffDuration,
+        developmentVesting = new DevelopmentMarketingVesting(developmentBeneficiaryAddress, developmentCliffDuration,
         developmentVestingDuration);
 
-        governanceVesting =
-        new ZeroLiquidGovernanceCommunityVesting(governanceBeneficiaryAddress, governanceCliffDuration,
+        governanceVesting = new GovernanceCommunityVesting(governanceBeneficiaryAddress, governanceCliffDuration,
         governanceVestingDuration);
 
-        incentiveVesting = new ZeroLiquidIncentiveVesting(incentiveBeneficiaryAddress, incentiveCliffDuration,
+        incentivesVesting = new IncentivesVesting(incentiveBeneficiaryAddress, incentiveCliffDuration,
         incentiveVestingDuration);
 
-        contributorsVesting =
-        new ZeroLiquidCoreContributorsVesting(contributorsBeneficiaryAddress, contributorsCliffDuration,
+        contributorsVesting = new CoreContributorsVesting(contributorsBeneficiaryAddress, contributorsCliffDuration,
         contributorsVestingDuration);
 
         vm.stopBroadcast();
